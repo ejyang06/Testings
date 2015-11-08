@@ -15,7 +15,6 @@ A debugger such as "pdb" may be helpful for debugging.
 Read about it online.
 
 eugene wu 2015
-
 """
 
 import os
@@ -130,7 +129,7 @@ def teardown_request(exception):
 # see for routing: http://flask.pocoo.org/docs/0.10/quickstart/#routing
 # see for decorators: http://simeonfranklin.com/blog/2012/jul/1/python-decorators-in-12-steps/
 # 
-@app.route('/', methods=["POST", "GET"])
+@app.route('/')
 def index():
   """
   request is a special object that Flask provides to access web request information:
@@ -141,65 +140,20 @@ def index():
 
   See its API: http://flask.pocoo.org/docs/0.10/api/#incoming-request-data
   """
-
   # DEBUG: this is debugging code to see what request looks like
   print request.args
+  return redirect(url_for('login'))
 
-  #
-  # example of a database query
-  #
-  cursor = g.conn.execute("SELECT loginID FROM Hikers")
-  names = []
-  for result in cursor:
-    names.append(result[0])  # can also be accessed using result[0]
-  cursor.close()
-
-  #
-  # Flask uses Jinja templates, which is an extension to HTML where you can
-  # pass data to a template and dynamically generate HTML based on the data
-  # (you can think of it as simple PHP)
-  # documentation: https://realpython.com/blog/python/primer-on-jinja-templating/
-  #
-  # You can see an example template in templates/index.html
-  #
-  # context are the variables that are passed to the template.
-  # for example, "data" key in the context variable defined below will be 
-  # accessible as a variable in index.html:
-  #
-  #     # will print: [u'grace hopper', u'alan turing', u'ada lovelace']
-  #     <div>{{data}}</div>
-  #     
-  #     # creates a <div> tag for each element in data
-  #     # will print: 
-  #     #
-  #     #   <div>grace hopper</div>
-  #     #   <div>alan turing</div>
-  #     #   <div>ada lovelace</div>
-  #     #
-  #     {% for n in data %}
-  #     <div>{{n}}</div>
-  #     {% endfor %}
-  #
-  context = dict( data = names )
-
-
-  #
-  # render_template looks in the templates/ folder for files.
-  # for example, the below file reads template/index.html
-  #
-  return render_template("index.html", **context)
-
-#
-# This is an example of a different path.  You can see it at
-# 
-#     localhost:8111/another/
-#
-# notice that the functio name is another() rather than index()
-# the functions for each app.route needs to have different names
-#
-@app.route('/another/', methods=["POST", "GET"])
-def another():
-  return render_template("anotherfile.html")
+# Register path
+@app.route('/register/', methods=['POST'])
+def add_entry():
+    if session.get('logged_in'):
+        return redirect(url_for('logout'))
+    g.conn.execute('INSERT INTO Hikers (loginID, password) VALUES (?, ?)',
+                 [request.form['userID'], request.form['Password']])
+    g.conn.commit()
+    flash('Welcome new hiker! Please log in')
+    return redirect(url_for('login'))
 
 # Login path
 
@@ -226,20 +180,21 @@ def login():
         else:
             session['logged_in'] = True
             flash('You were logged in')
-            return redirect(url_for('show_entries'))
+            return redirect(url_for('show_parks'))
+
     return render_template('login.html', error=error)
 
-@app.route('/entries/', methods=['GET', 'POST'])
-def show_entries():
-    cur = g.conn.execute("SELECT name,type FROM Parks")
-    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('show_entries.html', entries=entries)
-
-@app.route('/logout')
+@app.route('/logout/')
 def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
-    return redirect(url_for('show_entries'))
+    return redirect(url_for('login'))
+
+@app.route('/parks/', methods=['GET', 'POST'])
+def show_parks():
+    cur = g.conn.execute("SELECT name,type FROM Parks")
+    parks = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+    return render_template('show_parks.html', parks=parks)
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 

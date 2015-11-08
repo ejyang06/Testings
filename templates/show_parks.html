@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block body %}
+  <ul class=parks>
+  {% for park in parks %}
+    <li><h2>{{ park.title }}</h2>{{ park.text|safe }}
+  {% else %}
+    <li><em>Unbelievable.  No parks so far</em>
+  {% endfor %}
+  </ul>
+{% endblock %}
+
