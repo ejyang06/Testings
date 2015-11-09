@@ -163,7 +163,7 @@ def login():
     error = None
     if request.method == 'POST':
 
-        cursor = g.conn.execute("SELECT loginID,password FROM Hikers")
+        cursor = g.conn.execute("SELECT loginID,pw FROM Hikers")
         loginID = []
         password = []
         for result in cursor:
@@ -178,7 +178,6 @@ def login():
         
         elif (str(request.form['password']) != password[loginID.index(int(request.form['username']))].encode('utf8')) or str(request.form['password']) == "":
             error = 'Invalid password'
-            error = type(password[loginID.index(int(request.form['username']))].encode('utf8'))
         else:
             session['logged_in'] = True
             flash('You were logged in')
