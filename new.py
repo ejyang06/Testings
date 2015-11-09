@@ -171,13 +171,14 @@ def login():
             password.append(result[1])
         cursor.close()
 
-        if str(request.form['username']) not in str(loginID) or request.form['username'] == "":
+        if int(request.form['username']) not in loginID or request.form['username'] == "":
             error = 'Invalid username'
 
         # password is hard coded for now until change in the database
         
-        elif str(request.form['password']) != 'abc' or str(request.form['password']) == "":
+        elif (str(request.form['password']) != password[loginID.index(int(request.form['username']))].encode('utf8')) or str(request.form['password']) == "":
             error = 'Invalid password'
+            error = type(password[loginID.index(int(request.form['username']))].encode('utf8'))
         else:
             session['logged_in'] = True
             flash('You were logged in')
