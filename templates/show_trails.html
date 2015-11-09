@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block body %}
+  <ul class=parks>
+  {% for trail in trails %}
+    <li><h2>{{ trail.trailname }}</h2>{{ trail.trailtype|safe }}
+  {% else %}
+    <li><em>Unbelievable.  No Trails so far</em>
+  {% endfor %}
+  </ul>
+{% endblock %}

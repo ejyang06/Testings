@@ -198,6 +198,14 @@ def show_parks():
     parks = [dict(parkname=row[0], parktype=row[1]) for row in cur.fetchall()]
     return render_template('show_parks.html', parks=parks)
 
+@app.route('/trails/', methods=['GET', 'POST'])
+def show_trails(): 
+    cur = g.conn.execute("SELECT name,type FROM Trails")
+    trails = [dict(trailname=row[0], trailtype=row[1]) for row in cur.fetchall()]
+    return render_template('show_trails.html', trails=trails)
+	
+	
+
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 if __name__ == "__main__":
