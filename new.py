@@ -22,6 +22,7 @@ from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response, \
      session, flash, url_for
+from jinja2 import Template
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
@@ -193,7 +194,7 @@ def logout():
 @app.route('/parks/', methods=['GET', 'POST'])
 def show_parks():
     cur = g.conn.execute("SELECT name,type FROM Parks")
-    parks = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+    parks = [dict(parkname=row[0], parktype=row[1]) for row in cur.fetchall()]
     return render_template('show_parks.html', parks=parks)
 
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
@@ -225,4 +226,3 @@ if __name__ == "__main__":
 
 
   run()
-
