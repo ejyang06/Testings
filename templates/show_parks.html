@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
   <ul class=parks>
+  <h1>Parks (Name/Type)</h1>
   {% for park in parks %}
     <li><h2>{{ park.parkname }}</h2>{{ park.parktype|safe }}
   {% else %}
