@@ -193,18 +193,36 @@ def logout():
 
 @app.route('/parks/', methods=['GET', 'POST'])
 def show_parks():
-    cur = g.conn.execute("SELECT name,type FROM Parks")
-    parks = [dict(parkname=row[0], parktype=row[1]) for row in cur.fetchall()]
+    cur = g.conn.execute("SELECT name,type,state FROM Parks")
+    parks = [dict(parkname=row[0], parktype=row[1],parkstate=row[2]) for row in cur.fetchall()]
     return render_template('show_parks.html', parks=parks)
 
 @app.route('/trails/', methods=['GET', 'POST'])
 def show_trails(): 
-    cur = g.conn.execute("SELECT name,type FROM Trails")
-    trails = [dict(trailname=row[0], trailtype=row[1]) for row in cur.fetchall()]
+    cur = g.conn.execute("SELECT name,type,difficulty FROM Trails")
+    trails = [dict(trailname=row[0], trailtype=row[1],traild=row[2]) for row in cur.fetchall()]
     return render_template('show_trails.html', trails=trails)
-	
-	
 
+@app.route('/events/', methods=['GET', 'POST'])
+def show_events():
+    cur = g.conn.execute("select e.name, p.name FROM  parks p, events e WHERE p.parkid=e.parkid")
+    events = [dict(eventname=row[0], eventpark=row[1]) for row in cur.fetchall()]
+    return render_template('show_events.html', events=events)	
+
+
+@app.route('/campsites/', methods=['GET', 'POST'])
+def show_campsites():
+    cur = g.conn.execute("select c.name, p.name, t.name from campsites c, parks p, trails t where p.parkid=c.parkid AND t.trailid=c.trailid")
+    campsites = [dict(campname=row[0], camppark=row[1], camptrail=row[2]) for row in cur.fetchall()]
+    return render_template('show_campsites.html', campsites=campsites)
+
+
+@app.route('/comments/', methods=['GET', 'POST'])
+def comments():
+    cur = g.conn.execute("select p.name, c.content, u.name, c.postdate from parks p, comments c, users u where c.parkid=p.parkid AND u.userid=c.userid")
+    comments = [dict(parkname=row[0], content=row[1], username=row[2], postdate=row[3]) for row in cur.fetchall()]
+    return render_template('show_comments.html', comments=comments)
+	
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 if __name__ == "__main__":

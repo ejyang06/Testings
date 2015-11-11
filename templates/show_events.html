@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+  <ul class=parks>
+  <h1> Park Events (Name/ Parks)</h1>
+  {% for event in events %}
+    <li><h2>{{ event.eventname }}</h2>{{ event.eventpark|safe }} {{event.eventdate|safe}}
+  {% else %}
+    <li><em>Unbelievable.  No Events so far</em>
+  {% endfor %}
+  <h3> Thank you for your interest! The future events will be posted soon! </h3>
+  </ul>
+{% endblock %}

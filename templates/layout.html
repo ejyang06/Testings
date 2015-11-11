@@ -7,8 +7,10 @@
   <body>
     <div class=page>
       <h1>Hiking Database</h1>
-      <a href="{{ url_for('show_parks') }}">Show Parks</a>
-      <a href="{{ url_for('show_trails') }}">Show Trails</a>
+      <a href="{{ url_for('show_parks') }}">Parks</a>
+      <a href="{{ url_for('show_trails') }}">Trails</a>
+      <a href="{{ url_for('show_events') }}"> Park Events</a>
+      <a href="{{ url_for('show_campsites') }}"> CampSites</a>
       <div class=metanav>
       {% if not session.logged_in %}
         <a href="{{ url_for('login') }}">log in</a>

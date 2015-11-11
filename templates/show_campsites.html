@@ -1,0 +1,12 @@
+
+{% extends "layout.html" %}
+{% block body %}
+  <ul class=parks>
+  <h1> CampSites (Name/Parks/Trails) </h1>
+  {% for campsite in campsites %}
+    <li><h2>{{ campsite.campname }}</h2>{{ campsite.camppark|safe }} <br> {{ campsite.camptrail|safe }} <br/>
+  {% else %}
+    <li><em>Unbelievable.  No Campingsites so far</em>
+  {% endfor %}
+  </ul>
+{% endblock %}

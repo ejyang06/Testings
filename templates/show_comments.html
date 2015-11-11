@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+  <ul class=parks>
+  <h1>Comments (About Park)</h1>
+  {% for comment in comments %}
+    <li><h2>{{ comment.parkname}}</h2>{{ comment.content|safe }} <br> {{ comment.username|safe}}  {{comment.postdate|safe}} <br/>
+  {% else %}
+    <li><em>Unbelievable.  No Comments so far</em>
+  {% endfor %}
+  </ul>
+{% endblock %}
+~                

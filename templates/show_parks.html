@@ -1,11 +1,17 @@
+<!DOCTYPE html>
+<html>
 {% extends "layout.html" %}
 {% block body %}
   <ul class=parks>
   <h1>Parks (Name/Type)</h1>
   {% for park in parks %}
-    <li><h2>{{ park.parkname }}</h2>{{ park.parktype|safe }}
+    <li><h2>{{ park.parkname }}</h2>{{ park.parktype|safe }} <br> {{park.parkstate|safe}} <br/>
   {% else %}
     <li><em>Unbelievable.  No parks so far</em>
   {% endfor %}
   </ul>
+    <a href="http://www.nps.gov/index.htm">For more information, please visit National Parks Service</a>
 {% endblock %}
+<a href="http://www.nps.gov/index.htm">For more information, please visit National Parks Service</a>
+
+</html>
