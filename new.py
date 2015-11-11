@@ -199,8 +199,8 @@ def show_parks():
 
 @app.route('/trails/', methods=['GET', 'POST'])
 def show_trails(): 
-    cur = g.conn.execute("SELECT name,type,difficulty FROM Trails")
-    trails = [dict(trailname=row[0], trailtype=row[1],traild=row[2]) for row in cur.fetchall()]
+    cur = g.conn.execute("SELECT t. name, p.name, t.type, t. difficulty FROM Trails t, Parks p where t.parkid=p.parkid")
+    trails = [dict(trailname=row[0], parkname=row[1], trailtype=row[2],traild=row[3]) for row in cur.fetchall()]
     return render_template('show_trails.html', trails=trails)
 
 @app.route('/events/', methods=['GET', 'POST'])
@@ -218,7 +218,7 @@ def show_campsites():
 
 
 @app.route('/comments/', methods=['GET', 'POST'])
-def comments():
+def show_comments():
     cur = g.conn.execute("select p.name, c.content, u.name, c.postdate from parks p, comments c, users u where c.parkid=p.parkid AND u.userid=c.userid")
     comments = [dict(parkname=row[0], content=row[1], username=row[2], postdate=row[3]) for row in cur.fetchall()]
     return render_template('show_comments.html', comments=comments)

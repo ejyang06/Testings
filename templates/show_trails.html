@@ -3,10 +3,10 @@
   <ul class=parks>
   <h1>Trails (Name/Type)</h1>
   {% for trail in trails %}
-    <li><h2>{{ trail.trailname }}</h2>{{ trail.trailtype|safe }} <br> {{trail.traild|safe}} <br/>
+    <li><h2>{{ trail.trailname }} </h2><br> <b> {{ trail.parkname}}</b> <br/> <br> {{ trail.trailtype|safe }} <br/> <br>  {{trail.traild|safe}} <br/>
   {% else %}
     <li><em>Unbelievable.  No Trails so far</em>
   {% endfor %}
-  <a href="http://www.nps.gov/index.htm">For more information, please visit National Parks Service</a>
   </ul>
+  <a href="http://www.nps.gov/index.htm">For more information, please visit National Parks Service</a>
 {% endblock %}
