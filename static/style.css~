@@ -10,8 +10,6 @@ h2              { font-size: 1.2em; }
 .parks          { list-style: none; margin: 0; padding: 0; }
 .parks li       { margin: 0.8em 1.2em; }
 .parks li h2    { margin-left: -1em; }
-.add-comment    { font-size: 0.9em; border-bottom: 1px solid #ccc; }
-.add-comment dl { font-weight: bold; }
 .metanav        { text-align: right; font-size: 0.6em; padding: 0.3em;
                   margin-bottom: 1em; background: #fafafa; }
                   

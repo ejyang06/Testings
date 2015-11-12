@@ -240,7 +240,7 @@ def add_comment():
         abort(401)
     global nowuserID, nowloginID
     g.conn.execute('INSERT INTO Comments (commentID, parkID, userID, loginID, content, rating) VALUES (?, ?, ?, ?, ?, ?, ?)', \
-                 [int(request.form['commentID']), int(request.form['parkID']), nowuserID, nowloginID, unicode(request.form['content']), int(request.form['rating'])])
+                 [int(request.form['commentID']), int(request.form['parkID']), nowuserID, nowloginID, str(request.form['content']), int(request.form['rating'])])
     g.conn.commit()
     flash('New comment was successfully posted')
     return redirect(url_for('show_comments'))
