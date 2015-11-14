@@ -34,8 +34,8 @@ USERNAME = 'admin'
 PASSWORD = 'default'
 
 global nowuserID, nowloginID
-nowuserID = 0
-nowloginID = 0
+nowuserID = 1001
+nowloginID = 10011
 
 
 #
@@ -239,9 +239,8 @@ def add_comment():
     if not session.get('logged_in'):
         abort(401)
     global nowuserID, nowloginID
-    g.conn.execute('INSERT INTO Comments (commentID, parkID, userID, loginID, content, rating) VALUES (?, ?, ?, ?, ?, ?, ?)', \
-                 [int(request.form['commentID']), int(request.form['parkID']), nowuserID, nowloginID, unicode(request.form['content']), int(request.form['rating'])])
-    g.conn.commit()
+    g.conn.execute('INSERT INTO Comments (commentid, parkid, userid, loginid, content, rating) VALUES (%s, %s, %s, %s, %s, %s)', \
+                 [int(request.form['commentID']), int(request.form['parkID']), nowuserID, nowloginID, request.form['content'], int(request.form['rating'])])
     flash('New comment was successfully posted')
     return redirect(url_for('show_comments'))
 	
