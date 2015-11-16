@@ -37,6 +37,7 @@ global nowuserID, nowloginID
 nowuserID = 1001
 nowloginID = 10011
 
+from time import gmtime, strftime
 
 #
 # The following uses the sqlite3 database test.db -- you can use this for debugging purposes
@@ -239,8 +240,8 @@ def add_comment():
     if not session.get('logged_in'):
         abort(401)
     global nowuserID, nowloginID
-    g.conn.execute('INSERT INTO Comments (commentid, parkid, userid, loginid, content, rating) VALUES (%s, %s, %s, %s, %s, %s)', \
-                 [int(request.form['commentID']), int(request.form['parkID']), nowuserID, nowloginID, request.form['content'], int(request.form['rating'])])
+    g.conn.execute('INSERT INTO Comments (commentid, parkid, userid, loginid, content, rating, postdate) VALUES (%s, %s, %s, %s, %s, %s, %s)', \
+                 [int(request.form['commentID']), int(request.form['parkID']), nowuserID, nowloginID, request.form['content'], int(request.form['rating']), str(strftime("%Y-%m-%d",gmtime()))])
     flash('New comment was successfully posted')
     return redirect(url_for('show_comments'))
 	
